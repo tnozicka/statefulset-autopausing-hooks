@@ -49,7 +49,6 @@ function waitForPartition() {
     fi
     sleep 10 # a bit of help to account for the init pod
     echo 'Finished waiting for partition #'$1'.'
-    echo "(updatedReplicas: ${updatedReplicas})"
 }
 
 if [ -z ${ATTEMPT+x} ]; then 
@@ -75,7 +74,7 @@ setPartition ${middle}
 waitForPartition ${middle}
 
 # Run mid-hook
-runHook "Mid-hook: rolling update of statefulset/${NAME} reached half of updated replicas."
+runHook "Mid-hook: rolling update of statefulset/${NAME} reached half of updated replicas. Acceptance check succeeded; proceeding with update."
 
 # Set it to finish
 setPartition 0
@@ -84,6 +83,5 @@ setPartition 0
 waitForPartition 0 
 
 # Run post hook
-runHook "Post-hook: Rolling update of statefulset/${NAME} is finished."
-
+runHook "Post-hook: Acceptance check succeeded. Rolling update of statefulset/${NAME} is finished."
 
